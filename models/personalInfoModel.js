@@ -27,7 +27,6 @@ const personalInfoScehma = mongoose.Schema(
 
     phoneNumber: {
       type: String,
-      unique: false,
     },
 
     dob: {
