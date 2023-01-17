@@ -56,6 +56,21 @@ const personalInfoScehma = mongoose.Schema(
     maritalStatus: {
       type: String,
     },
+    address: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    zipCode: {
+      type: String,
+    },
   },
   {
     timestamps: true,
