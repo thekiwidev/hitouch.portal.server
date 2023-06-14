@@ -6,7 +6,7 @@ const Student = require("../models/studentModels");
 const PersonalInfo = require("../models/personalInfoModel");
 
 // ==================================
-// CREATE A STUDENT
+// !CREATE A STUDENT
 // @route       POST api/users
 // @desc        creata a new user
 // @access      Public
@@ -18,7 +18,7 @@ const registerStudent = asyncHandler(async (req, res) => {
     throw new Error("Please add all fields");
   }
 
-  // CHECK IF USER EXIST
+  // !CHECK IF USER EXIST
   const userExist = await Student.findOne({ email });
 
   if (userExist) {
@@ -26,11 +26,11 @@ const registerStudent = asyncHandler(async (req, res) => {
     throw new Error(`User with the email ${email}  already exist`);
   }
 
-  // HASH THE PASSWORD
+  // !HASH THE PASSWORD
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  // CREATE THE STUDENT
+  // !CREATE THE STUDENT
   const student = await Student.create({
     name: `${lastName ? firstName + " " + lastName : firstName}`,
     email,
@@ -38,7 +38,7 @@ const registerStudent = asyncHandler(async (req, res) => {
   });
 
   if (student) {
-    // CHECK IF USER INFO EXIST
+    // !CHECK IF USER INFO EXIST
     const infoExist = await PersonalInfo.findOne({ email });
 
     if (infoExist) {
@@ -52,6 +52,7 @@ const registerStudent = asyncHandler(async (req, res) => {
       lastName,
       email: student.email,
     });
+
     res.status(201).json({
       _id: student.id,
       email: student.email,
@@ -71,16 +72,16 @@ const registerStudent = asyncHandler(async (req, res) => {
 });
 
 // ==================================
-// LOGIN STUDENTS
+// !LOGIN STUDENTS
 // @route       POST api/users/login
 // @desc        Authenticate Student
 // @access      Public
 
 const loginStudent = asyncHandler(async (req, res) => {
-  // Get the email and password
+  // *Get the email and password
   const { email, password } = req.body;
 
-  // CHECK FOR EMAIL
+  // *CHECK FOR EMAIL
   const student = await Student.findOne({ email });
 
   if (student && (await bcrypt.compare(password, student.password))) {
@@ -97,7 +98,7 @@ const loginStudent = asyncHandler(async (req, res) => {
 });
 
 // ==================================
-// GET STUDENT DATA
+// !GET STUDENT DATA
 // ==================================
 // @route       GET api/user/me
 // @desc        get a specific user account info
@@ -106,7 +107,7 @@ const getStudent = asyncHandler(async (req, res, next) => {
   res.status(200).json(req.user);
 });
 
-// GENERATE JWT TOKEN
+// !GENERATE JWT TOKEN
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
